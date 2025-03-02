@@ -4,7 +4,7 @@ import numpy as np
 from skimage.feature import hog
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, classification_report
 import joblib
 
 def load_dataset(data_dir):
@@ -29,7 +29,7 @@ def extract_hog_features(images):
         hog_features.append(features)
     return np.array(hog_features)
 
-data_dir = 'data/train'  
+data_dir = 'data/train' 
 images, labels = load_dataset(data_dir)
 
 X = extract_hog_features(images)
@@ -43,6 +43,9 @@ clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Test Accuracy: {accuracy * 100:.2f}%")
+
+print("Classification Report:")
+print(classification_report(y_test, y_pred))
 
 os.makedirs('models', exist_ok=True)
 joblib.dump(clf, 'models/paddy_disease_svm_model.pkl')

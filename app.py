@@ -1,14 +1,16 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import cv2
 import numpy as np
 from skimage.feature import hog
 import joblib
 
 app = Flask(__name__)
+CORS(app)  
 
 clf = joblib.load('models/paddy_disease_svm_model.pkl')
 
-class_labels = ['Bacterial_Leaf_Blight', 'Brown_Spot', 'Leaf_Smut', 'Healthy']
+class_labels = ['Bacterial_Leaf_Blight', 'Brown_Spot', 'Leaf_Smut', 'Healthy', 'Non_Rice']
 
 def extract_hog_features(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -26,9 +28,9 @@ def predict():
 
     try:
         image = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
-        image = cv2.resize(image, (128, 128))  
+        image = cv2.resize(image, (128, 128)) 
         features = extract_hog_features(image)
-        features = features.reshape(1, -1) 
+        features = features.reshape(1, -1)  
 
         predicted_class = clf.predict(features)[0]
         confidence = np.max(clf.predict_proba(features))
