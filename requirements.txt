@@ -1,0 +1,5 @@
+scikit-learn 
+flask
+pillow
+opencv-python
+scikit-image

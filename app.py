@@ -10,7 +10,7 @@ CORS(app)
 
 clf = joblib.load('models/paddy_disease_svm_model.pkl')
 
-class_labels = ['Bacterial_Leaf_Blight', 'Brown_Spot', 'Leaf_Smut', 'Healthy', 'Non_Rice']
+class_labels = ['Bacterialblight', 'Tungro', 'Brownspot', 'Non_Rice', 'Blast', 'Healthy']
 
 def extract_hog_features(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
